@@ -20,8 +20,6 @@ This Python script allows users to download images from Bing image search based 
 
 ## Installation
 1. Download the script.
-   pip install requests beautifulsoup4 Pillow colorama
-   
 2. Install the required libraries:
    pip install requests beautifulsoup4 Pillow colorama
 
