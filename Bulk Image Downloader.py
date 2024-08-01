@@ -12,7 +12,7 @@ import re
 # Initialize colorama
 init(autoreset=True)
 
-# Aumenta il limite di dimensione per le immagini grandi
+# Increase the size limit for large images
 Image.MAX_IMAGE_PIXELS = None
 
 def has_transparency(img):
@@ -27,9 +27,9 @@ def check_image_quality(img, min_quality):
     total_pixels = width * height
     if min_quality == 0:
         return True
-    elif min_quality == 1:  # Media qualità
+    elif min_quality == 1:  # Medium quality
         return total_pixels >= 480000  # 800x600
-    elif min_quality == 2:  # Alta qualità
+    elif min_quality == 2:  # High quality
         return total_pixels >= 2073600  # 1920x1080
     return False
 
@@ -43,31 +43,31 @@ def download_image(url, folder_path, filename, desired_format, min_quality):
             try:
                 img = Image.open(io.BytesIO(response.content))
                 
-                # Verifica la qualità
+                # Check quality
                 if not check_image_quality(img, min_quality):
                     print(f"{Fore.YELLOW}Image quality too low: {filename}")
                     return False
 
                 if desired_format == 0:
-                    # Salva l'immagine nel suo formato originale
+                    # Save the image in its original format
                     file_path = os.path.join(folder_path, f"{filename}.{img.format.lower()}")
                     img.save(file_path)
                 elif desired_format == 1:
-                    # Scarica solo se è già in formato JPG
+                    # Download only if it's already in JPG format
                     if img.format.lower() != "jpeg":
                         print(f"{Fore.YELLOW}Not a JPG image: {filename}")
                         return False
                     file_path = os.path.join(folder_path, f"{filename}.jpg")
                     img.save(file_path)
                 elif desired_format == 2:
-                    # Verifica se è PNG con sfondo trasparente
+                    # Check if it's PNG with transparent background
                     if img.format != "PNG" or not has_transparency(img):
                         print(f"{Fore.YELLOW}Not a PNG with transparent background: {filename}")
                         return False
                     file_path = os.path.join(folder_path, f"{filename}.png")
                     img.save(file_path)
 
-                # Verifica l'integrità dell'immagine salvata
+                # Verify the integrity of the saved image
                 try:
                     with Image.open(file_path) as check_img:
                         check_img.verify()
@@ -112,7 +112,7 @@ def get_bing_images(query, num_images=20):
     return image_urls
 
 def clean_keyword(keyword):
-    # Rimuove caratteri potenzialmente problematici
+    # Remove potentially problematic characters
     return re.sub(r'[^\w\s-]', '', keyword).strip()
 
 def main():
